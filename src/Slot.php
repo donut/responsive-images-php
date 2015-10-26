@@ -46,14 +46,14 @@ class Slot
     $sources[] = new Source($source, true);
   }
 
-  public function renderFor($uri)
+  public function renderFor($uri, SrcsetGeneratorInterface $srcset_gen)
   {
     if (count($this->sources) === 1)
       return $this->sources[0]->renderFor($uri);
 
     $html = F\reduce_left($this->sources,
       function(Source $source, $i, $c, $acc) use ($uri){
-        return "$acc\n  ".$source->renderFor($uri);
+        return "$acc\n  ".$source->renderFor($uri, $srcset_gen);
       }, '');
 
     return "<picture>$html\n</picture>";

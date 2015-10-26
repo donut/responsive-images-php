@@ -27,14 +27,14 @@ class Source
     $this->as_img = $as_img;
   }
 
-  public function renderFor($uri)
+  public function renderFor($uri, SrcsetGeneratorInterface $srcset_gen)
   {
     $last = F\last($this->sizes);
 
-    $srcset = F\map($this->sizes, function(Size $size) use ($uri){
-      return $size->srcsetFor($uri);
+    $srcset = F\map($this->sizes, function(Size $size) use ($uri, $srcset_gen){
+      return $srcset_gen->listFor($uri, $size);
     });
-    $srcset = F\unique($srcset, null, true);
+    $srcset = F\unique(F\flatten($srcset));
     $srcset = implode(', ', $srcset);
 
     $sizes  = F\map($this->sizes, function(Size $size) use ($last){
