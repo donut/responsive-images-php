@@ -1,5 +1,6 @@
 # ResponsiveImages
-A way to define and render responsive images using HTML5 features `<picture>`, `srcset`, and `sizes`.
+A PHP library for defining and rendering responsive images in HTML5 using 
+`<picture>`, `srcset`, and `sizes`
 
 
 ## Todos
