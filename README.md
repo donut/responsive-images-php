@@ -7,7 +7,7 @@ A PHP library for defining and rendering responsive images in HTML5 using
 
 * [x] Write overview of how this should work.
 * [x] Add in Functional (as subtree or submodule?)
-* [ ] Add in what's already been built.
+* [x] Add in what's already been built.
 * [ ] Finish building existing classes.
 * [ ] Create `SlotGroup` for `nth-child`-esque `Slot` definitions.
 * [ ] Create `srcset` generator interface
