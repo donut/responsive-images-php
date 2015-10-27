@@ -21,7 +21,7 @@ class Drupal implements RImg\SrcsetGeneratorInterface
       return $styles;
 
     $styles = F\filter(image_styles(), function($style){
-      foreach ($style->effects as $effect) {
+      foreach ($style['effects'] as $effect) {
         if (!in_array($effect['name'], $this->target_effects))
           # Unknown effects could have unintended side-effects.
           return false;
@@ -66,7 +66,7 @@ class Drupal implements RImg\SrcsetGeneratorInterface
 
     if (!empty($styles['greater']))
       # Make sure the end of the range is covered.
-      $styles['within'][] = $styles['greater'][0];
+      $styles['within'][] = F\head($styles['greater']);
 
     if (empty($styles['within'])) {
       if (!empty($styles['less']))
@@ -100,8 +100,8 @@ class Drupal implements RImg\SrcsetGeneratorInterface
   {
     $dimensions = F\reduce_left($style['effects'],
     function ($effect, $i, $c, $dim){
-      $width  = (int)$effect['width']  ?: null;
-      $height = (int)$effect['height'] ?: null;
+      $width  = (int)$effect['data']['width']  ?: null;
+      $height = (int)$effect['data']['height'] ?: null;
 
       if ($effect['name'] !== 'image_scale')
         # Every targeted effect except for `image_scale` sets a firm width and
@@ -112,13 +112,14 @@ class Drupal implements RImg\SrcsetGeneratorInterface
         if ($dim->$side === 0)
           $dim->$side = (int)$$side;
 
-      if (!$effect['upscale']
+      $upscale = $effect['data']['upscale'];
+      if (!$upscale
           and (!$width or $width > $dim->width)
           and (!$height or $height > $dim->height))
         return $dim;
 
       $dim = (array)$dim;
-      image_dimensions_scale($dim, $width, $height, $effect['upscale']);
+      image_dimensions_scale($dim, $width, $height, $upscale);
 
       return (object)$dim;
     }, (object)['width' => 0, 'height' => 0, 'firm' => false]);
