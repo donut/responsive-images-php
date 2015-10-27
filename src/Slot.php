@@ -22,11 +22,7 @@ class Slot
 
   function __construct(array $sizes)
   {
-    $this->sizes = F\map($sizes, function($size){
-      return new Size($size['min_width'], $size['aspect_ratio']
-        ,$size);
-    });
-
+    $this->sizes = $sizes;
     $this->groupSizesIntoSources();
   }
 
@@ -52,7 +48,7 @@ class Slot
       return $this->sources[0]->renderFor($uri);
 
     $html = F\reduce_left($this->sources,
-      function(Source $source, $i, $c, $acc) use ($uri){
+      function(Source $source, $i, $c, $acc) use ($uri, $srcset_gen){
         return "$acc\n  ".$source->renderFor($uri, $srcset_gen);
       }, '');
 

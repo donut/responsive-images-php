@@ -20,7 +20,7 @@ class Drupal implements RImg\SrcsetGeneratorInterface
     if (isset($styles))
       return $styles;
 
-    $styles = F\filter(image_styles(), function($style) use ($this){
+    $styles = F\filter(image_styles(), function($style){
       foreach ($style->effects as $effect) {
         if (!in_array($effect['name'], $this->target_effects))
           # Unknown effects could have unintended side-effects.
@@ -29,7 +29,7 @@ class Drupal implements RImg\SrcsetGeneratorInterface
       return true;
     });
 
-    $styles = F\map($styles, function($style) use ($this){
+    $styles = F\map($styles, function($style){
       $dimensions = $this->finalDimensionsOfStyle($style);
       return (object)[
          'name'   => $style['name']
