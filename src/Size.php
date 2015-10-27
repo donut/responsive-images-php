@@ -35,10 +35,11 @@ class Size
   public function getAspectRatio(){ return $this->aspect_ratio; }
 
   /**
-   * @var float
    * How close to the aspect ratio a set of dimensions must be to be used for
    * this size. This positive float will be subtracted and added to
    * $aspect_ratio to find the minimum and maximum aspect ratio.
+   *
+   * @var float
    */
   private $aspect_ratio_tolerance;
 
