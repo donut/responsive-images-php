@@ -59,6 +59,14 @@ class Size
   }
 
 
+  public function matchesAspectRatio($aspect_ratio)
+  {
+    $min = $this->aspect_ratio - $this->aspect_ratio_tolerance;
+    $max = $this->aspect_ratio + $this->aspect_ratio_tolerance;
+
+    return ($min <= $aspect_ratio and $aspect_ratio <= $max);
+  }
+
   public function renderWidthOnly()
   {
     return (isset($this->viewport_width))
