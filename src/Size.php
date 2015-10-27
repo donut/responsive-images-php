@@ -21,10 +21,12 @@ class Size
    * @var integer
    */
   private $min_width;
+  public function getMinWidth(){ return $this->min_width; }
   /**
    * @var integer
    */
   private $max_width;
+  public function getMaxWidth(){ return $this->max_width; }
 
   /**
    * @var float
