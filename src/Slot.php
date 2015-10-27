@@ -39,7 +39,7 @@ class Slot
       $prev_aspect_ratio = $aspect_ratio;
       $source[] = $size;
     }
-    $sources[] = new Source($source, true);
+    $this->sources[] = new Source($source, true);
   }
 
   public function renderFor($uri, SrcsetGeneratorInterface $srcset_gen)
