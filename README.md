@@ -8,11 +8,11 @@ A PHP library for defining and rendering responsive images in HTML5 using
 * [x] Write overview of how this should work.
 * [x] Add in Functional (as subtree or submodule?)
 * [x] Add in what's already been built.
-* [ ] Finish building existing classes.
+* [x] Finish building existing classes.
 * [ ] Create `SlotGroup` for `nth-child`-esque `Slot` definitions.
-* [ ] Create `srcset` generator interface
-* [ ] Create Drupal `srcset` generator
-* [ ] Comment all the things.
+* [x] Create `srcset` generator interface
+* [x] Create Drupal `srcset` generator
+* [ ] Document and clean up all the things.
 
 
 ## Use Overview
