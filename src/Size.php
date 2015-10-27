@@ -56,25 +56,6 @@ class Size
                           ? $options['viewport_width'] : null;
   }
 
-  public function srcsetFor($uri)
-  {
-    # @todo replace function call with SrcsetGeneratorInterface
-    $styles = styles_matching_aspect_ratio($this->aspect_ratio
-                                          ,$this->aspect_ratio_tolerance);
-    F\sort($styles, function($a, $b){ return $a->width - $b->width; });
-    $applicable = [];
-    foreach ($styles as $style) {
-      if ($style->width < $this->min_width)
-        continue;
-      $applicable[] = $style;
-      if ($style->width >= $this->max_width)
-        break;
-    }
-
-    return F\map($styles, function($style) use ($uri){
-      return image_style_url($style->name, $uri) . " {$style->width}w";
-    });
-  }
 
   public function renderWidthOnly()
   {
