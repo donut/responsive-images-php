@@ -28,11 +28,13 @@ use Traversable;
 /**
  * Recombines arrays by index and applies a callback optionally
  *
- * @param $args array|Traversable $collection One or more callbacks
+ * @param Traversable|array $collection One or more callbacks
  * @return array
  */
-function zip(...$args)
+function zip($collection)
 {
+    $args = func_get_args();
+
     $callback = null;
     if (is_callable(end($args))) {
         $callback = array_pop($args);
@@ -42,17 +44,16 @@ function zip(...$args)
         InvalidArgumentException::assertCollection($arg, __FUNCTION__, $position + 1);
     }
 
-    $result = [];
-    foreach ((array) reset($args) as $index => $value) {
-        $zipped = [];
+    $result = array();
+    foreach ($collection as $index => $value) {
+        $zipped = array();
 
         foreach ($args as $arg) {
             $zipped[] = isset($arg[$index]) ? $arg[$index] : null;
         }
 
         if ($callback !== null) {
-            /** @var callable $callback */
-            $zipped = $callback(...$zipped);
+            $zipped = call_user_func_array($callback, $zipped);
         }
 
         $result[] = $zipped;

@@ -36,10 +36,10 @@ function flatten($collection)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $stack = [$collection];
-    $result = [];
+    $stack = array($collection);
+    $result = array();
 
-    while (!empty($stack)) {
+    while ($stack) {
         $item = array_shift($stack);
 
         if (is_array($item) || $item instanceof Traversable) {

@@ -27,27 +27,22 @@ use Functional\Exceptions\InvalidArgumentException;
 /**
  * Memoizes callbacks and returns their value instead of calling them
  *
- * @param callable|null $callback Callable closure or function. Pass null to reset memory
+ * @param callable $callback Callable closure or function
  * @param array $arguments Arguments
  * @param array|string $key Optional memoize key to override the auto calculated hash
  * @return mixed
  */
-function memoize(callable $callback = null, $arguments = [], $key = null)
+function memoize($callback, array $arguments = array(), $key = null)
 {
-    static $storage = [];
+    static $storage = array();
 
     if ($callback === null) {
-        $storage = [];
+        $storage = array();
 
         return null;
     }
 
-    if (is_callable($arguments)) {
-        $key = $arguments;
-        $arguments = [];
-    } else {
-        InvalidArgumentException::assertCollection($arguments, __FUNCTION__, 2);
-    }
+    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 1);
 
     static $keyGenerator = null;
     if (!$keyGenerator) {
@@ -66,15 +61,13 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
     }
 
     if ($key === null) {
-        $key = $keyGenerator(array_merge([$callback], $arguments));
-    } elseif (is_callable($key)) {
-        $key = $keyGenerator($key());
+        $key = $keyGenerator(array_merge(array($callback), $arguments));
     } else {
         $key = $keyGenerator($key);
     }
 
     if (!isset($storage[$key]) && !array_key_exists($key, $storage)) {
-        $storage[$key] = $callback(...$arguments);
+        $storage[$key] = call_user_func_array($callback, $arguments);
     }
 
     return $storage[$key];

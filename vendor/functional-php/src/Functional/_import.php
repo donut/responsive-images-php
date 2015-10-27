@@ -22,10 +22,8 @@
  */
 
 call_user_func(function() {
-    static $symbols = [
+    static $symbols = array(
         'Functional\\Exceptions\\InvalidArgumentException',
-        'Functional\\Sequences\\LinearSequence',
-        'Functional\\Sequences\\ExponentialSequence',
         'Functional\\every',
         'Functional\\some',
         'Functional\\difference',
@@ -61,7 +59,6 @@ call_user_func(function() {
         'Functional\\average',
         'Functional\\first_index_of',
         'Functional\\last_index_of',
-        'Functional\\indexes_of',
         'Functional\\true',
         'Functional\\false',
         'Functional\\truthy',
@@ -72,18 +69,7 @@ call_user_func(function() {
         'Functional\\tail',
         'Functional\\with',
         'Functional\\sort',
-        'Functional\\retry',
-        'Functional\\poll',
-        'Functional\\sequence_constant',
-        'Functional\\sequence_linear',
-        'Functional\\sequence_exponential',
-        'Functional\\partial_left',
-        'Functional\\partial_right',
-        'Functional\\partial_any',
-        'Functional\\partial_method',
-        'Functional\\id',
-        'Functional\\const_function',
-    ];
+    );
     static $basePath = __DIR__;
 
     foreach ($symbols as $symbol) {

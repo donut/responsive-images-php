@@ -33,13 +33,14 @@ use Traversable;
  * @param callable $callback
  * @return bool
  */
-function every($collection, callable $callback)
+function every($collection, $callback)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
     foreach ($collection as $index => $element) {
 
-        if (!$callback($element, $index, $collection)) {
+        if (!call_user_func($callback, $element, $index, $collection)) {
             return false;
         }
 

@@ -33,12 +33,15 @@ use Traversable;
  * @param bool $preserveKeys
  * @return array
  */
-function sort($collection, callable $callback, $preserveKeys = false)
+function sort($collection, $callback, $preserveKeys = false)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+
+    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+
     InvalidArgumentException::assertBoolean($preserveKeys, __FUNCTION__, 3);
 
-    if ($collection instanceof Traversable) {
+    if ($collection instanceof \Traversable) {
         $array = iterator_to_array($collection);
     } else {
         $array = $collection;
@@ -47,7 +50,7 @@ function sort($collection, callable $callback, $preserveKeys = false)
     $fn = $preserveKeys ? 'uasort' : 'usort';
 
     $fn($array, function ($left, $right) use ($callback, $collection) {
-        return $callback($left, $right, $collection);
+        return call_user_func($callback, $left, $right, $collection);
     });
 
     return $array;

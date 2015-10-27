@@ -32,17 +32,18 @@ use Traversable;
  * @param callable $callback
  * @return array
  */
-function drop_first($collection, callable $callback)
+function drop_first($collection, $callback)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
-    $result = [];
+    $result = array();
 
     $drop = true;
     foreach ($collection as $index => $element) {
 
         if ($drop) {
-            if ($callback($element, $index, $collection)) {
+            if (call_user_func($callback, $element, $index, $collection)) {
                 continue;
             }
 

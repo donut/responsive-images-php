@@ -33,17 +33,18 @@ use Traversable;
  * @param callable $callback
  * @return array
  */
-function partition($collection, callable $callback)
+function partition($collection, $callback)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
-    $partitions = [
-        0 => [],
-        1 => []
-    ];
+    $partitions = array(
+        0 => array(),
+        1 => array()
+    );
 
     foreach ($collection as $index => $element) {
-        $partitionKey = $callback($element, $index, $collection) ? 0 : 1;
+        $partitionKey = call_user_func($callback, $element, $index, $collection) ? 0 : 1;
         $partitions[$partitionKey][$index] = $element;
     }
 

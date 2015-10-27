@@ -34,20 +34,20 @@ use Traversable;
  * @param array $arguments
  * @return array
  */
-function invoke($collection, $methodName, array $arguments = [])
+function invoke($collection, $methodName, array $arguments = array())
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     InvalidArgumentException::assertMethodName($methodName, __FUNCTION__, 2);
 
-    $aggregation = [];
+    $aggregation = array();
 
     foreach ($collection as $index => $element) {
 
         $value = null;
 
-        $callback = [$element, $methodName];
+        $callback = array($element, $methodName);
         if (is_callable($callback)) {
-            $value = $callback(...$arguments);
+            $value = call_user_func_array($callback, $arguments);
         }
 
         $aggregation[$index] = $value;

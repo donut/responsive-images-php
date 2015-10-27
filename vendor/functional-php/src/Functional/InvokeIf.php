@@ -32,11 +32,11 @@ namespace Functional;
  * @param mixed $defaultValue
  * @return mixed
  */
-function invoke_if($object, $methodName, array $methodArguments = [], $defaultValue = null)
+function invoke_if($object, $methodName, array $methodArguments = array(), $defaultValue = null)
 {
-    $callback = [$object, $methodName];
+    $callback = array($object, $methodName);
     if (is_callable($callback)) {
-        return $callback(...$methodArguments);
+        return call_user_func_array($callback, $methodArguments);
     }
 
     return $defaultValue;
