@@ -42,7 +42,7 @@ class Source
     });
     $sizes  = implode(', ', $sizes);
 
-    $media = !$this->as_img ? ' media="'.$last->getMediaQuery().'""' : '';
+    $media = !$this->as_img ? ' media="'.$last->getMediaQuery().'"' : '';
 
     $attributes = "srcset=\"$srcset\" sizes=\"$sizes\"$media";
     return $this->as_img ? "<img $attributes>" : "<source $attributes>";
