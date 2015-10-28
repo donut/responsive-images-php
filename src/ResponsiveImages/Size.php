@@ -43,20 +43,26 @@ class Size
    */
   private $aspect_ratio_tolerance;
 
-  function __construct($min_width, $aspect_ratio, array $options)
+  /**
+   * Size constructor.
+   *
+   * @param array       $range
+   * @param float       $aspect_ratio
+   * @param string|null $query
+   * @param float|null  $vw
+   * @param float|null  $ar_tolerance
+   */
+  function __construct(array $range, $aspect_ratio, $query=null, $vw=null
+                      ,$ar_tolerance=0.0)
   {
-    $this->min_width = $min_width;
-    $this->max_width = isset($options['max_width'])
-                     ? $options['max_width'] : $this->min_width;
+    $this->min_width = $range[0];
+    $this->max_width = isset($range[1]) ? $range[1] : $this->min_width;
+
+    $this->media_query    = $query;
+    $this->viewport_width = $vw;
 
     $this->aspect_ratio = $aspect_ratio;
-    $this->aspect_ratio_tolerance = isset($options['aspect_ratio_tolerance'])
-                                  ? $options['aspect_ratio_tolerance'] : 0;
-
-    $this->media_query    = isset($options['media_query'])
-                          ? $options['media_query'] : null;
-    $this->viewport_width = isset($options['viewport_width'])
-                          ? $options['viewport_width'] : null;
+    $this->aspect_ratio_tolerance = $ar_tolerance;
   }
 
 
