@@ -46,7 +46,7 @@ class Size
   /**
    * Size constructor.
    *
-   * @param array       $range
+   * @param integer[]   $range
    * @param float       $aspect_ratio
    * @param string|null $query
    * @param float|null  $vw
