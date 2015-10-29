@@ -37,6 +37,11 @@ class Source
     $srcset = F\unique(F\flatten($srcset), function(Src $src){
       return $src->getUrl();
     });
+    usort($srcset, function(Src $l, Src $r){
+      $l = $l->getWidth() ?: (int)$l->getMultiplier();
+      $r = $r->getWidth() ?: (int)$r->getMultiplier();
+      return $l - $r;
+    });
     $srcset = implode(', ', $srcset);
 
     $sizes  = F\map($this->sizes, function(Size $size) use ($last){
