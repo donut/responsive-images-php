@@ -137,14 +137,15 @@ class DrupalImageStyle implements RImg\SrcsetGeneratorInterface
    * @param string    $uri
    * @param RImg\Size $size
    *
-   * @return \string[]
+   * @return RImg\Src[]
    */
   public function listFor($uri, RImg\Size $size)
   {
     $styles = $this->stylesMatchingSize($size);
 
     return F\map($styles, function($style) use ($uri){
-      return image_style_url($style->name, $uri) . " {$style->width}w";
+      $url = image_style_url($style->name, $uri);
+      return  new RImg\Src($url, $style->width);
     });
   }
 }

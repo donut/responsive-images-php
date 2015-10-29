@@ -14,7 +14,7 @@ interface SrcsetGeneratorInterface
    * @param Size   $size
    *   The Size instance to base the srcset on.
    *
-   * @return string[]
+   * @return Src[]
    *   List of values for the `srcset` attribute.
    */
   public function listFor($uri, Size $size);

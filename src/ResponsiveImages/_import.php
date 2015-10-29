@@ -6,6 +6,7 @@ require_once __DIR__.'/Slot.php';
 require_once __DIR__.'/SlotGroup.php';
 require_once __DIR__.'/Size.php';
 require_once __DIR__.'/Source.php';
+require_once __DIR__.'/Src.php';
 require_once __DIR__.'/SrcsetGeneratorInterface.php';
 require_once __DIR__.'/srcset_generators/DrupalImageStyle.php';
 

@@ -34,7 +34,9 @@ class Source
     $srcset = F\map($this->sizes, function(Size $size) use ($uri, $srcset_gen){
       return $srcset_gen->listFor($uri, $size);
     });
-    $srcset = F\unique(F\flatten($srcset));
+    $srcset = F\unique(F\flatten($srcset), function(Src $src){
+      return $src->getUrl();
+    });
     $srcset = implode(', ', $srcset);
 
     $sizes  = F\map($this->sizes, function(Size $size) use ($last){
