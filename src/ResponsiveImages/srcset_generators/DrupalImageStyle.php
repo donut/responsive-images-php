@@ -78,7 +78,7 @@ class DrupalImageStyle implements RImg\SrcsetGeneratorInterface
     else
       $styles = $styles['within'];
 
-    return $styles;
+    return F\unique($styles, function($s){ return $s->width; });
   }
 
 
