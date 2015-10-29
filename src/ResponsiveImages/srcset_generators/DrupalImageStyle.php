@@ -143,8 +143,23 @@ class DrupalImageStyle implements RImg\SrcsetGeneratorInterface
   {
     $styles = $this->stylesMatchingSize($size);
 
+    $image = image_get_info($uri);
+    if ($image
+        and $size->matchesAspectRatio($image['width']/$image['height'])) {
+      $styles = F\filter($styles, function($style) use ($image){
+        return $style->width < $image['width'];
+      });
+      $styles[] = (object)[
+         'name'   => null
+        ,'width'  => $image['width']
+        ,'height' => $image['height']
+        ,'firm'   => true
+      ];
+    }
+
     return F\map($styles, function($style) use ($uri){
-      $url = image_style_url($style->name, $uri);
+      $url = $style->name ? image_style_url($style->name, $uri)
+                          : file_create_url($uri);
       return  new RImg\Src($url, $style->width);
     });
   }
