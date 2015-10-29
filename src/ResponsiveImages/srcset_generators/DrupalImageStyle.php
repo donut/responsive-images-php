@@ -7,7 +7,7 @@ use Functional as F;
 use ResponsiveImages as RImg;
 
 
-class Drupal implements RImg\SrcsetGeneratorInterface
+class DrupalImageStyle implements RImg\SrcsetGeneratorInterface
 {
   private $target_effects =
     ['image_scale_and_crop', 'image_resize', 'image_crop', 'image_scale'];
