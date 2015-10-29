@@ -39,7 +39,7 @@ class DrupalImageStyle implements RImg\SrcsetGeneratorInterface
       ];
     });
 
-    F\sort($styles, function($a, $b){ return $a->width - $b->width; });
+    uasort($styles, function($a, $b){ return $a->width - $b->width; });
 
     return $styles;
   }
