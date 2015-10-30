@@ -27,7 +27,7 @@ class Source
     $this->as_img = $as_img;
   }
 
-  public function renderFor($uri, SrcsetGeneratorInterface $srcset_gen)
+  public function renderWith($uri, SrcsetGeneratorInterface $srcset_gen)
   {
     $last = F\last($this->sizes);
 
