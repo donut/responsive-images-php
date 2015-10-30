@@ -44,6 +44,11 @@ class Slot
 
   public function renderWith($image, SrcsetGeneratorInterface $srcset_gen)
   {
+    # A naked <img> is used if possible since browser support for <picture>
+    # is still not great. However, support for <img> with `srcset` and `sizes`
+    # attributes is much better. This reduces how often a polyfill is required
+    # to run.
+    # @see http://caniuse.com/#search=picture
     if (count($this->sources) === 1)
       return $this->sources[0]->renderWith($image, $srcset_gen);
 
