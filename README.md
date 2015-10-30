@@ -12,7 +12,7 @@ A PHP library for defining and rendering responsive images in HTML5 using
 * [x] Create `SlotGroup` for `nth-child`-esque `Slot` definitions.
 * [x] Create `srcset` generator interface
 * [x] Create Drupal `srcset` generator
-* [x] ~~Vigorous~~ "works for me" testing.
+* [x] ~~Vigorous~~ Worksforme testing.
 * [ ] Document and clean up all the things.
 * [ ] Add ability to set the "alt" attribute.
 * [ ] Rewrite README with examples and clearer explanations.
