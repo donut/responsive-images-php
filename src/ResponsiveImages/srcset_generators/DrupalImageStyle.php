@@ -7,12 +7,40 @@ use Functional as F
   , ResponsiveImages as RImg;
 
 
+/**
+ * Defines a srcset value generator that finds all image styles defined in a
+ * Drupal site that match a given image and size.
+ *
+ * @package ResponsiveImages\srcset_generators
+ */
 class DrupalImageStyle implements RImg\SrcsetGeneratorInterface
 {
+  /**
+   * List of image style effects to care about.
+   *
+   * @var string[]
+   */
   private $target_effects =
     ['image_scale_and_crop', 'image_resize', 'image_crop', 'image_scale'];
 
 
+  /**
+   * Returns a list of image styles that only contain the effects we care about.
+   *
+   * @return \stdClass[]
+   *   List of objects representing styles, ordered ascending width. Each
+   *   object has the properties:
+   *
+   *     string   name
+   *       The machine name of the style.
+   *     int|null width
+   *       The final width the image will be after applying the effects.
+   *     int|null height
+   *       The final height the image will be after applying the effects.
+   *     bool     firm
+   *       Whether or not the width and height can be guaranteed. Depending on
+   *       the list of effects, they just be maximums.
+   */
   private function getStyles()
   {
     static $styles;
@@ -45,6 +73,18 @@ class DrupalImageStyle implements RImg\SrcsetGeneratorInterface
   }
 
 
+  /**
+   * Find the styles that that match the passed size.
+   *
+   * @param RImg\Size $size
+   *   The size instance to match styles to.
+   *
+   * @return \stdClass[]
+   *   List of styles that fit the passed size. Same object definition as
+   *   $this->getStyles().
+   *
+   * @see DrupalImageStyle::getStyles()
+   */
   private function stylesMatchingSize(RImg\Size $size)
   {
     # @todo Support Size instances without aspect ratio restrictions.
