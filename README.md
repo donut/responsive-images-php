@@ -12,17 +12,17 @@ A PHP library for defining and rendering responsive images in HTML5 using
 * [x] Create `SlotGroup` for `nth-child`-esque `Slot` definitions.
 * [x] Create `srcset` generator interface
 * [x] Create Drupal `srcset` generator
+* [x] ~~Vigorous~~ "works for me" testing.
 * [ ] Document and clean up all the things.
-* [ ] Vigorous testing.
+* [ ] Rewrite README with examples and clearer explanations.
 
 
 ## Use Overview
 
 The idea is that one can define a `Slot` that represents an image on a page, 
-including all the different sizes it could take base do media queries. With 
-this definition, URI, and a given `SrcsetGeneratorInterface` instance a 
-`<picture>` tag is rendered with the appropriate `<source>`s and `<img>` so 
-that it displays the best image possible for the given viewport conditions.
+including all the different sizes (`Size`) it could take base on media queries. 
+With this definition, an image, and a given `SrcsetGeneratorInterface` 
+instance a `<picture>` tag is rendered with the appropriate `<source>`s and `<img>` so that it displays the best image possible for the given viewport conditions.
 
 ### `Slot` class
 
