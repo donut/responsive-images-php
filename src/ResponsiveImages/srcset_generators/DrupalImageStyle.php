@@ -143,18 +143,29 @@ class DrupalImageStyle implements RImg\SrcsetGeneratorInterface
   {
     $styles = $this->stylesMatchingSize($size);
 
+    # By default Drupal doesn't provide an image style that crops an image to
+    # an aspect ratio without potentially upscaling it. If the original image is
+    # smaller than the styles that are returned we aren't providing any better
+    # quality. Better to just allow only one larger than the original, or even
+    # the original if it matches the aspect ratio.
     $image = image_get_info($uri);
-    if ($image
-        and $size->matchesAspectRatio($image['width']/$image['height'])) {
-      $styles = F\filter($styles, function($style) use ($image){
+    if ($image) {
+      $styles = F\partition($styles, function($style) use ($image, $size){
         return $style->width < $image['width'];
       });
-      $styles[] = (object)[
-         'name'   => null
-        ,'width'  => $image['width']
-        ,'height' => $image['height']
-        ,'firm'   => true
-      ];
+      if ($size->matchesAspectRatio($image['width']/$image['height'])
+          and (!empty($styles[1])
+               and F\head($styles[1])->width != $image['width']
+               or $image['width'] <= ($size->getMaxWidth() * 2)))
+        $styles[0][] = (object)[
+           'name'   => null
+          ,'width'  => $image['width']
+          ,'height' => $image['height']
+          ,'firm'   => true
+        ];
+      else if (!empty($styles[1]))
+        $styles[0][] = F\head($styles[1]);
+      $styles = $styles[0];
     }
 
     return F\map($styles, function($style) use ($uri){
