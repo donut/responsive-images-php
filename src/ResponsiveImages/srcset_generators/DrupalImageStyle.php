@@ -3,8 +3,8 @@
 namespace ResponsiveImages\srcset_generators;
 
 
-use Functional as F;
-use ResponsiveImages as RImg;
+use Functional as F
+  , ResponsiveImages as RImg;
 
 
 class DrupalImageStyle implements RImg\SrcsetGeneratorInterface
