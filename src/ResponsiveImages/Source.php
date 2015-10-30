@@ -2,12 +2,22 @@
 
 namespace ResponsiveImages;
 
+
 use Functional as F;
 
 
+/**
+ * Represents a <source> to be used in a <picture>.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source
+ *
+ * @package ResponsiveImages
+ */
 class Source
 {
   /**
+   * A list of image sizes represented in this <source>.
+   *
    * @var Size[]
    */
   private $sizes;
@@ -21,12 +31,35 @@ class Source
    */
   private $as_img;
 
+  /**
+   * Source constructor.
+   *
+   * @param Size[] $sizes
+   *   List of sizes in the order their conditions should be rendered in the
+   *   `sizes` attribute. Browsers evaluate the conditions from left to right,
+   *   stopping at the first condition met.
+   * @param bool   $as_img
+   *   Whether or not this source should be rendered as an <img> instead of
+   *   <source>.
+   */
   function __construct(array $sizes, $as_img=false)
   {
     $this->sizes  = $sizes;
     $this->as_img = $as_img;
   }
 
+  /**
+   * Generates the HTML for the represented <source> or <img> element.
+   *
+   * @param mixed                    $image
+   *   The image representation that will be passed to $srcset_gen
+   *   @see SrcsetGeneratorInterface
+   * @param SrcsetGeneratorInterface $srcset_gen
+   *
+   * @return string
+   *   The HTML for either a <source> or <img> element depending on the value
+   *   of $this->as_img.
+   */
   public function renderWith($image, SrcsetGeneratorInterface $srcset_gen)
   {
     $last = F\last($this->sizes);
@@ -37,6 +70,7 @@ class Source
     $srcset = F\unique(F\flatten($srcset), function(Src $src){
       return $src->getUrl();
     });
+    # Not really needed, but makes debugging nicer.
     usort($srcset, function(Src $l, Src $r){
       $l = $l->getWidth() ?: (int)$l->getMultiplier();
       $r = $r->getWidth() ?: (int)$r->getMultiplier();
