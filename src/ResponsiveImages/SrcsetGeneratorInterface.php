@@ -3,11 +3,16 @@
 namespace ResponsiveImages;
 
 
+/**
+ * A way to generate values for the HTML `srcset` attribute.
+ *
+ * @package ResponsiveImages
+ */
 interface SrcsetGeneratorInterface
 {
   /**
    * Generates a list of values for the `srcset` HTML attribute for the
-   * passed URI.
+   * passed image.
    *
    * @param mixed $image
    *   A representation of the image to use to generate the srcset values.
