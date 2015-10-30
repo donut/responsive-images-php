@@ -42,14 +42,14 @@ class Slot
     $this->sources[] = new Source($source, true);
   }
 
-  public function renderWith($uri, SrcsetGeneratorInterface $srcset_gen)
+  public function renderWith($image, SrcsetGeneratorInterface $srcset_gen)
   {
     if (count($this->sources) === 1)
-      return $this->sources[0]->renderWith($uri, $srcset_gen);
+      return $this->sources[0]->renderWith($image, $srcset_gen);
 
     $html = F\reduce_left($this->sources,
-      function(Source $source, $i, $c, $acc) use ($uri, $srcset_gen){
-        return "$acc\n  ".$source->renderWith($uri, $srcset_gen);
+      function(Source $source, $i, $c, $acc) use ($image, $srcset_gen){
+        return "$acc\n  ".$source->renderWith($image, $srcset_gen);
       }, '');
 
     return "<picture>$html\n</picture>";

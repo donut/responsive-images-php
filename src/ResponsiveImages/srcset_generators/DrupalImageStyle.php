@@ -135,6 +135,7 @@ class DrupalImageStyle implements RImg\SrcsetGeneratorInterface
    * @see \ResponsiveImages\SrcsetGeneratorInterface
    *
    * @param string    $uri
+   *   Drupal URI to the original image file.
    * @param RImg\Size $size
    *
    * @return RImg\Src[]

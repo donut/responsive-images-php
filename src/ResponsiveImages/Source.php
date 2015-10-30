@@ -27,12 +27,12 @@ class Source
     $this->as_img = $as_img;
   }
 
-  public function renderWith($uri, SrcsetGeneratorInterface $srcset_gen)
+  public function renderWith($image, SrcsetGeneratorInterface $srcset_gen)
   {
     $last = F\last($this->sizes);
 
-    $srcset = F\map($this->sizes, function(Size $size) use ($uri, $srcset_gen){
-      return $srcset_gen->listFor($uri, $size);
+    $srcset = F\map($this->sizes, function(Size $size) use ($image, $srcset_gen){
+      return $srcset_gen->listFor($image, $size);
     });
     $srcset = F\unique(F\flatten($srcset), function(Src $src){
       return $src->getUrl();
