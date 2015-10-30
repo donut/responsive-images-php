@@ -2,30 +2,60 @@
 
 namespace ResponsiveImages;
 
+
 use Functional as F;
 
 
 /**
- * Class Slot
+ * Defines an image position and how it responds to different viewport
+ * conditions.
+ *
+ * @package ResponsiveImages
  */
 class Slot
 {
   /**
+   * List of possible sizes the image could take, and the conditions required
+   * by those sizes.
+   *
    * @var Size[]
    */
   private $sizes = [];
 
   /**
+   * A generated list of <source> tags for the <picture> element, including
+   * the final <img> tag.
+   *
    * @var Source[]
    */
   private $sources = [];
 
+  /**
+   * Slot constructor.
+   *
+   * @param Size[] $sizes
+   *   List of sizes images in this slot can take in the order that they should
+   *   be evaluated. The <source> tags of a <picture> element are evaluated in
+   *   the order they are defined in the HTML code, stopping at the first one
+   *   whose `media` attribute matches the current viewport conditions. The
+   *   same is true for the comma separated values in a `sizes` attributed.
+   *   This list must reflect that desired order.
+   */
   function __construct(array $sizes)
   {
     $this->sizes = $sizes;
     $this->groupSizesIntoSources();
   }
 
+  /**
+   * Groups the sizes into Source instances representing <source> tags as
+   * appropriate.
+   *
+   * The images defined in a `srcset` attribute should all have the same
+   * aspect ratio and generally be the same image, just at different sizes. If
+   * an image needs to change more than scale between different viewport
+   * conditions then each variation should be housed in its own <source> tag.
+   */
   private function groupSizesIntoSources()
   {
     $prev_aspect_ratio = null;
@@ -42,6 +72,20 @@ class Slot
     $this->sources[] = new Source($source, true);
   }
 
+  /**
+   * Generates the HTML to represent the passed image in this slot definition.
+   *
+   * @param mixed                    $image
+   *   The image representation that will be passed to $srcset_gen
+   *   @see SrcsetGeneratorInterface
+   * @param SrcsetGeneratorInterface $srcset_gen
+   *   The generator instance that will be used to generate the srcset
+   *   attributes.
+   *
+   * @return string
+   *   The HTML for the image. An <img> if the slot can be represented by a
+   *   single source, a <picture> otherwise.
+   */
   public function renderWith($image, SrcsetGeneratorInterface $srcset_gen)
   {
     # A naked <img> is used if possible since browser support for <picture>
