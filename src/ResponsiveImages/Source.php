@@ -54,16 +54,18 @@ class Source
    * @param SrcsetGeneratorInterface $srcset_gen
    *   The generator instance that will be used to generate the srcset
    *   attributes.
-   *
    * @param mixed                    $image
    *   The image representation that will be passed to $srcset_gen
+   * @param string                   $alt
+   *   The for an <img> `alt` attribute. Only used if $this->as_img is true.
    *
    * @return string
    *   The HTML for either a <source> or <img> element depending on the value
    *
    * @see SrcsetGeneratorInterface
    */
-  public function renderWith(SrcsetGeneratorInterface $srcset_gen, $image)
+  public function renderWith(SrcsetGeneratorInterface $srcset_gen, $image
+                            ,$alt='')
   {
     $last = F\last($this->sizes);
 
@@ -87,8 +89,9 @@ class Source
     $sizes  = implode(', ', $sizes);
 
     $media = !$this->as_img ? ' media="'.$last->getMediaQuery().'"' : '';
+    $alt   = $this->as_img ? ' alt="'.htmlspecialchars($alt).'"' : '';
 
-    $attributes = "srcset=\"$srcset\" sizes=\"$sizes\"$media";
+    $attributes = "srcset=\"$srcset\" sizes=\"$sizes\"{$media}{$alt}";
     return $this->as_img ? "<img $attributes>" : "<source $attributes>";
   }
 }

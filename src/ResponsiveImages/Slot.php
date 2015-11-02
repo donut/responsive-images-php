@@ -80,13 +80,17 @@ class Slot
    *   attributes.
    * @param mixed                    $image
    *   The image representation that will be passed to $srcset_gen
+   * @param string                   $alt
+   *   The value of the <img> `alt` attribute.
    *
    * @return string
    *   The HTML for the image. An <img> if the slot can be represented by a
    *
    * @see SrcsetGeneratorInterface
+   * @see Source::renderWith()
    */
-  public function renderWith(SrcsetGeneratorInterface $srcset_gen, $image)
+  public function renderWith(SrcsetGeneratorInterface $srcset_gen, $image
+                            ,$alt='')
   {
     # A naked <img> is used if possible since browser support for <picture>
     # is still not great. However, support for <img> with `srcset` and `sizes`
@@ -94,11 +98,11 @@ class Slot
     # to run.
     # @see http://caniuse.com/#search=picture
     if (count($this->sources) === 1)
-      return $this->sources[0]->renderWith($srcset_gen, $image);
+      return $this->sources[0]->renderWith($srcset_gen, $image, $alt);
 
     $html = F\reduce_left($this->sources,
-      function(Source $source, $i, $c, $acc) use ($image, $srcset_gen){
-        return "$acc\n  ".$source->renderWith($srcset_gen, $image);
+      function(Source $source, $i, $c, $acc) use ($image, $srcset_gen, $alt){
+        return "$acc\n  ".$source->renderWith($srcset_gen, $image, $alt);
       }, '');
 
     return "<picture>$html\n</picture>";
