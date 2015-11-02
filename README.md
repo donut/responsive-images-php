@@ -93,9 +93,20 @@ $html  = $slot->renderWith($srcset_gen, $image, 'goomba');
 ?>
 
 <picture>
-  <source srcset="http://example.com/styles/3_2_300w/my-image.jpg?itok=VD3J0Mwq 300w, http://example.com/styles/3_2_600w/my-image.jpg?itok=K-TewAad 600w, http://example.com/styles/profile_large/my-image.jpg?itok=KiiX7ISp 924w" sizes="300px" media="(min-width: 60.9375em)">
-  <source srcset="http://example.com/styles/4_3_180w/my-image.jpg?itok=Rx78LmeJ 180w, http://example.com/styles/4_3_360w/my-image.jpg?itok=1TTw7O2e 360w" sizes="177px" media="(min-width: 48em)">
-  <img srcset="http://example.com/styles/16_9_240w/my-image.jpg?itok=sADtpt1v 240w, http://example.com/styles/featured_item_medium/my-image.jpg?itok=toTCJEkF 368w, http://example.com/styles/16_9_480w/my-image.jpg?itok=0k-p2Osp 480w, http://example.com/styles/16_9_576w/my-image.jpg?itok=5FTy5zhp 576w, http://example.com/styles/16_9_768w/my-image.jpg?itok=Pw714XGG 768w, http://example.com/styles/16_9_960w/my-image.jpg?itok=KdwTFBc0 960w" sizes="(min-width: 30em) 48vw, 100vw" alt="goomba">
+  <source srcset="/styles/3_2_300w/my-image.jpg 300w,
+                  /styles/3_2_600w/my-image.jpg 600w,
+                  /styles/profile_large/my-image.jpg 924w"
+          sizes="300px" media="(min-width: 60.9375em)">
+  <source srcset="/styles/4_3_180w/my-image.jpg 180w,
+                  /styles/4_3_360w/my-image.jpg 360w"
+          sizes="177px" media="(min-width: 48em)">
+  <img srcset="/styles/16_9_240w/my-image.jpg 240w,
+               /styles/featured_item_medium/my-image.jpg 368w,
+               /styles/16_9_480w/my-image.jpg 480w,
+               /styles/16_9_576w/my-image.jpg 576w,
+               /styles/16_9_768w/my-image.jpg 768w,
+               /styles/16_9_960w/my-image.jpg 960w"
+       sizes="(min-width: 30em) 48vw, 100vw" alt="goomba">
 </picture>
 
 <?php
