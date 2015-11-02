@@ -14,7 +14,7 @@ A PHP library for defining and rendering responsive images in HTML5 using
 * [x] Create Drupal `srcset` generator
 * [x] ~~Vigorous~~ Worksforme testing.
 * [x] Document and clean up all the things.
-* [ ] Add ability to set the "alt" attribute.
+* [x] Add ability to set the "alt" attribute.
 * [ ] Rewrite README with examples and clearer explanations.
 
 
