@@ -51,16 +51,19 @@ class Source
   /**
    * Generates the HTML for the represented <source> or <img> element.
    *
+   * @param SrcsetGeneratorInterface $srcset_gen
+   *   The generator instance that will be used to generate the srcset
+   *   attributes.
+   *
    * @param mixed                    $image
    *   The image representation that will be passed to $srcset_gen
-   *   @see SrcsetGeneratorInterface
-   * @param SrcsetGeneratorInterface $srcset_gen
    *
    * @return string
    *   The HTML for either a <source> or <img> element depending on the value
-   *   of $this->as_img.
+   *
+   * @see SrcsetGeneratorInterface
    */
-  public function renderWith($image, SrcsetGeneratorInterface $srcset_gen)
+  public function renderWith(SrcsetGeneratorInterface $srcset_gen, $image)
   {
     $last = F\last($this->sizes);
 
