@@ -6,8 +6,8 @@ A PHP library for defining and rendering responsive images in HTML5 using
 ## The Idea
 
 The idea is that one can define a `Slot` that represents a place on a page 
-that an image can live, including the different sizes and shapes (`Size`) it
-can take in response to the current viewport conditions. Using this definition,
+where an image can live, including the different sizes and shapes (`Size`) it
+can take in response to viewport conditions. Using this definition,
 `<picture>`, `<source>`, and `<img>` tags can be rendered with the appropriate
 `media`, `srcset`, and `sizes` attributes.
 
@@ -19,14 +19,15 @@ can take in response to the current viewport conditions. Using this definition,
 
 use ResponsiveImages as RImg;
 
-# Define a list of sizes the image can take based on view port
+# Define a list of sizes the image can take based on viewport
 # conditions (media queries) in the order the browser should
 # evaluate them.
 #
 # The `Size` constructor takes the following parameters:
 #
 # @param integer[]   $range
-#   Either `[$min_width]` or `[$min_width, $max_width]`. If only $min_width
+#   The range of widths the image can take specified either as
+#   `[$min_width]` or `[$min_width, $max_width]`. If only $min_width
 #   is specified, it will be used for the $max_width value as well.
 # @param float       $aspect_ratio
 #   The aspect ratio. Looks best if you pass it as a fraction, such as 16/9.
@@ -34,8 +35,8 @@ use ResponsiveImages as RImg;
 #   The media query to be used in the `sizes` attribute value. If null, no
 #   condition is set.
 # @param float|null  $vw
-#   The viewport width to be used in the `sizes` attribute value. If null,
-#   $min_width will be used with with `px` units.
+#   The viewport width to be used in the `sizes` attribute value, specified
+#   in `vw` units. If null, $min_width will be used with with `px` units.
 # @param float       $ar_tolerance
 #   The aspect ratio tolerance. Used to define the minimum and maximum
 #   acceptable aspect ratios.
@@ -66,24 +67,25 @@ $slot = new RImg\Slot($sizes);
 
 # Third, create an instance of a class that implements SrcsetGeneratorInterface.
 #
-# Since there are many different ways generate image sizes based an original
-# image, there is no good way that would be applicable to every
+# Since there are many different ways to generate image sizes based an original
+# image, there is no good generalization that would be applicable to every
 # CMS/framework/project out there.
 #
-# The DrupalImageStyle class implements the SrcsetGeneratorInterface and is
-# include under ResponsiveImages\srcset_generators. It generates srcset values
-# by look at all the image styles defined in a Drupal site and finds those that
-# match the Size instanced passed to SrcsetGeneratorInterface::listFor().
+# The DrupalImageStyle class implements SrcsetGeneratorInterface and is
+# included under [ResponsiveImages\srcset_generators]. It generates srcset 
+# values by looking at all the image styles defined in a Drupal site and finds 
+# those that match the Size instances passed to its implementation of 
+# SrcsetGeneratorInterface::listFor().
 
 $srcset_gen = new RImg\srcset_generators\DrupalImageStyle();
 
 # Fourth and finally, render the image to HTML.
 #
-# The Slot::renderWith() takes a SrcsetGeneratorInterface instance along with
+# Slot::renderWith() takes a SrcsetGeneratorInterface instance along with
 # a representation of an image that the SrcsetGeneratorInterface instance will
-# understand. The case of DrupalImageStyle this is a Drupal URI to the image,
-# however this can be whatever as long as your chosen srcset generator
-# understands it.
+# understand. In the case of DrupalImageStyle, this is a Drupal file URI to the 
+# image. However this can be whatever as long as the chosen 
+# SrcsetGeneratorInterface implementation understands it.
 
 $image = 'public://my/image/representation/as/a/uri/or/anything/really.png';
 $html  = $slot->renderWith($srcset_gen, $image, 'goomba');
@@ -112,7 +114,13 @@ $html  = $slot->renderWith($srcset_gen, $image, 'goomba');
 <?php
 
 # Note that the last two Size instances were combined into the single <img>
-# tag as they shared the same aspect ratio.
+# tag as they shared the same aspect ratio. If all Size instances shared the
+# same aspect ratio, Slot::renderWith() would have returned a single <img> with
+# the appropriate values in `srcset` and `sizes`. It would not be wrapped in a
+# <picture>. Most modern browsers have support for the `srcset` and `sizes` 
+# attributes, but support for <picture> is weaker. Return a lone <img> when
+# possible reduces how often a polyfill such as picturefill.js would need to
+# run.
 ```
 
 ### Using `SlotGroup`
@@ -121,7 +129,8 @@ A `SlotGroup` instance defines a list of `Slot` instances with rules for
 which index in the group each slot is delivered for. For example, on 
 [RightThisMinute](http://www.rigtthisminute.com) we have several groups of 
 images that, while all representing the same type of object, often are 
-displayed at differing sizes, not every slot is displayed the same way.
+displayed at differing sizes, not every slot in a group of images is displayed 
+the same way.
 
 `SlotGroup` solves this by attaching a function to each of its `Slot` 
 instances. These functions take a 1-based index and return `true` if the slot
@@ -166,7 +175,7 @@ first slot in the list.
 
 ## Outstanding Issues
 
-* `Size` should be able to define only a width restriction without needing to
+* `Size` should be able to define a width restriction without also needing to
  define an aspect ratio.
 * `Size` should be able to be defined in terms of height instead of width.
 
@@ -180,4 +189,5 @@ restrictions on contributions. The only thing I request is that any issues or
  
 ## Questions/Comments
 
-Open up an issue! Take a look at the code. I've tried to comment things well. 
+Open up an issue! Also, everything has been documented, hopefully well, 
+taking a look at the code may answer your questions.

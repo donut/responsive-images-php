@@ -74,7 +74,8 @@ class Size
    * Size constructor.
    *
    * @param integer[]   $range
-   *   Either `[$min_width]` or `[$min_width, $max_width]`. If only $min_width
+   *   The range of widths the image can take specified either as
+   *   `[$min_width]` or `[$min_width, $max_width]`. If only $min_width
    *   is specified, it will be used for the $max_width value as well.
    * @param float       $aspect_ratio
    *   The aspect ratio. Looks best if you pass it as a fraction, such as 16/9.
@@ -82,8 +83,8 @@ class Size
    *   The media query to be used in the `sizes` attribute value. If null, no
    *   condition is set.
    * @param float|null  $vw
-   *   The viewport width to be used in the `sizes` attribute value. If null,
-   *   $min_width will be used with with `px` units.
+   *   The viewport width to be used in the `sizes` attribute value, specified
+   *   in `vw` units. If null, $min_width will be used with with `px` units.
    * @param float       $ar_tolerance
    *   The aspect ratio tolerance. Used to define the minimum and maximum
    *   acceptable aspect ratios.
